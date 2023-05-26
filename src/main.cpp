@@ -4,9 +4,14 @@
 #include "tools/tools.h"
 
 int main(int argc, char **argv) { 
-    std::filesystem::path p(argv[1]);
-    AudioFile<double> wav; wav.load(p);
     
+    #ifdef ___unix__
+        std::filesystem::path p(argv[1]);
+    #elif _WIN64
+        std::string p = argv[1];
+    #endif
+
+    AudioFile<double> wav; wav.load(p);
     //wav = softClip(wav, 5);
     //wav.save(p.stem().string() + "-softclipped.wav");
 
