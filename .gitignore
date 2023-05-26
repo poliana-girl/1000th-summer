@@ -2,3 +2,5 @@
 1000th-summer.exe
 1000th-summer
 *.o
+*.wav
+.vscode/
