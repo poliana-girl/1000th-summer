@@ -44,9 +44,9 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
     std::cout << "getting rate of change between samples..." << std::endl;
     for (int channel = 0; channel < numChannels; channel++) {
         for (int i = 0; i < numSamples && i + 1 + offset < numSamples; i += istep) {
-            std::cout << "getting rate of change between " << i << " and " << i + 1 + offset << std::endl;
+            //std::cout << "getting rate of change between " << i << " and " << i + 1 + offset << std::endl;
             buffer[channel][i / istep] = wav.samples[channel][i + 1 + offset] - wav.samples[channel][i];
-            std::cout << buffer[channel][i / istep] << std::endl;
+            //std::cout << buffer[channel][i / istep] << std::endl;
         }
     }
     
@@ -60,8 +60,8 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
     //     }
     // }
 
-    for (int i = 0; i < numSamples; i < numSamples / istep) {   
-        std::cout << buffer[0][i] << std::endl;
+    for (int i = 0; i < numSamples / istep; i++ ) {   
+        //std::cout << buffer[0][i] << std::endl;
         q0.push(std::pair<double, int>(buffer[0][i], i));
         q1.push(std::pair<double, int>(buffer[1][i], i));
     }
@@ -87,25 +87,25 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
 
     std::sort(idxHolder.begin(), idxHolder.end());
     idxHolder.erase( unique(idxHolder.begin(), idxHolder.end()), idxHolder.end());
-    // for(auto i : idxHolder) {
-    //     std::cout << "idxHolder value: " << i << std::endl;
-    // }
+    for(auto i : idxHolder) {
+        std::cout << "idxHolder value: " << i << std::endl;
+    }
 
     std::vector<AudioFile<double>> frags;
 
-    
+    //TODO: fix this loop so that it actually sends the right values
     while ( fragProg < numFrags) {
         
         //test for first transient point. if it's the first index and the first value isn't 0...
         if (posTracker == 0 && idxHolder[posTracker] != 0 && fragProg == 0) {
             start = 0;
-            end = idxHolder[posTracker];
+            end = (int) idxHolder[posTracker];
         } else if (fragProg == numFrags - 1) {
-            start = idxHolder[posTracker];
+            start = (int) idxHolder[posTracker];
             end = numSamples;
         } else {
-            start = idxHolder[posTracker];
-            end = idxHolder[posTracker + 1];
+            start = (int) idxHolder[posTracker];
+            end = (int) idxHolder[posTracker + 1];
         }
 
         // if (end - start < simGrain) {
