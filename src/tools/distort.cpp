@@ -4,8 +4,9 @@
 AudioFile<double> distort(AudioFile<double> wav, double threshold) {
     std::cout << "distorting file at threshold " << threshold << "..." << std::endl;
     
-    //find length of given audio file
+    //info about wav file
     int numSamples = wav.getNumSamplesPerChannel();
+    int numChannels = wav.getNumChannels();
     
     // create new audio buffer
     AudioFile<double>::AudioBuffer buffer;

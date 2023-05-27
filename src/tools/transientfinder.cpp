@@ -1,9 +1,35 @@
 #include <iostream>
 #include "../../libs/AudioFile/AudioFile.h"
 #include <queue>
+#include <chrono>
 
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFrags) {
-    //TODO: find rates of change between points on the graph and output locations of the greatest rate of change?
+    auto time0 = std::chrono::high_resolution_clock::now();
+    std::cout << "finding transients of file..." << std::endl;
+    
+    //info about wav file
+    int numSamples = wav.getNumSamplesPerChannel();
+    int numChannels = wav.getNumChannels();
+    int simGrain = 44100 / 20; //transient similarity grain. not enabled right now
+
+    int offset = 44100 / 30000; //rate of change offset: samples[offset] - 
+    int istep = 44100 / 10;     //how often to check for rates of change
+
+    int posTracker = 0;
+    int fragProg = 0;
+    int start;
+    int end;
+    
+
+    AudioFile<double>::AudioBuffer buffer;
+    buffer.resize(numChannels);
+    for (auto &channel : buffer)
+        channel.resize(numSamples);
+    
+    std::priority_queue<std::pair<double, int>> q0; //store array of ROC
+    std::priority_queue<std::pair<double, int>> q1;
+
+    std::priority_queue<std::pair<double, int>> q[16]; // store priority queues of channels
 
     /*
     GAME PLAN:
@@ -11,44 +37,36 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
         - test if ROC is within a certain threshold (i.e. changes fast enough to be considered a transient)
             - within threshold -> create an AudioBuffer starting at the sample that continues until the next transient
             (the number of transients returned is depends on argument numFrags. the duration of all the transients combined should equal the initial audio file)
-    
-    
     */
-    std::cout << "finding transients of file..." << std::endl;
     
-    //find length of given audio file
-    int numSamples = wav.getNumSamplesPerChannel();
-    
-    // create new audio buffer for saving rates of change
-    AudioFile<double>::AudioBuffer buffer;
-    buffer.resize(2);
-    buffer[0].resize(numSamples);
-    buffer[1].resize(numSamples);
 
-    //ROC offset
-    int offset = 44100 / 30000;
-    //grain of i
-    int istep = 44100 / 10;
-
-    //iterate over each channel and sample
+    //find rate of change between samples
     std::cout << "getting rate of change between samples..." << std::endl;
-    for (int channel = 0; channel < 2; channel++) {
+    for (int channel = 0; channel < numChannels; channel++) {
         for (int i = 0; i < numSamples && i + 1 + offset < numSamples; i += istep) {
             std::cout << "getting rate of change between " << i << " and " << i + 1 + offset << std::endl;
-            buffer[channel][i] = wav.samples[channel][i + 1 + offset] - wav.samples[channel][i];
-            std::cout << buffer[channel][i] << std::endl;
+            buffer[channel][i / istep] = wav.samples[channel][i + 1 + offset] - wav.samples[channel][i];
+            std::cout << buffer[channel][i / istep] << std::endl;
         }
     }
     
     //sort rates of change into max-heap priority queue
-    std::cout << "sorting ROC..." << std::endl;
-    std::priority_queue<std::pair<double, int>> q0;
-    std::priority_queue<std::pair<double, int>> q1;
+    std::cout << "sorting rates of change..." << std::endl;
 
-    for (int i = 0; i < numSamples; i += istep) {   
+    // for (auto channel : buffer) {
+    //     std::priority_queue<std::pair<double, int>> qChannel;
+    //     for (auto sample : channel) {
+    //         qChannel.push()
+    //     }
+    // }
+
+    for (int i = 0; i < numSamples; i < numSamples / istep) {   
+        std::cout << buffer[0][i] << std::endl;
         q0.push(std::pair<double, int>(buffer[0][i], i));
         q1.push(std::pair<double, int>(buffer[1][i], i));
     }
+
+
     
     //sort indexes in min-heap priority queue
     std::vector<int> idxHolder;
@@ -57,13 +75,13 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
         double kv0 = q0.top().first;
         int ki0 = q0.top().second;
         idxHolder.push_back(ki0);
-        std::cout << "channel 0: index[" << ki0 << "] = " << kv0 << std::endl;
+        //std::cout << "channel 0: index[" << ki0 << "] = " << kv0 << std::endl;
         q0.pop();
 
         double kv1 = q1.top().first;
         int ki1 = q1.top().second;
         idxHolder.push_back(ki1);
-        std::cout << "channel 1: index[" << ki1 << "] = " << kv1 << std::endl;
+        //std::cout << "channel 1: index[" << ki1 << "] = " << kv1 << std::endl;
         q1.pop();
     }
 
@@ -75,11 +93,7 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
 
     std::vector<AudioFile<double>> frags;
 
-    int posTracker = 0;
-    int fragProg = 0;
-    int start;
-    int end;
-    int simGrain = 44100 / 20; //transient similarity grain;
+    
     while ( fragProg < numFrags) {
         
         //test for first transient point. if it's the first index and the first value isn't 0...
@@ -98,11 +112,11 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
         //     continue;
         // }
 
-        std::cout << "frag #" <<fragProg << " starts at " << start << " and ends at " << end << std::endl;
+        //std::cout << "frag #" <<fragProg << " starts at " << start << " and ends at " << end << std::endl;
         AudioFile<double>::AudioBuffer tempbuf;
         tempbuf.resize(2);
 
-        std::cout << "inserting samples..." << std::endl;
+        //std::cout << "inserting samples..." << std::endl;
         for (int channel = 0; channel < 2; channel++) {
             tempbuf[channel].insert(tempbuf[channel].begin(), wav.samples[channel].begin() + start, wav.samples[channel].begin() + end);
             tempbuf[channel].resize(end - start);
@@ -120,7 +134,10 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
         fragProg++;
     }
     
-
+    auto time1 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(time1 - time0);
+    float secs = (float) duration.count() / 1000;
+    std::cout << "Time taken by function: " << secs << " seconds" << std::endl;
     //wav.setAudioBuffer(buffer);
     return frags;
 }
