@@ -3,4 +3,4 @@
 1000th-summer
 *.o
 *.wav
-/.vscode/
+.vscode
