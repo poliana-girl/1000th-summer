@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv) { 
     
-    #ifdef ___unix__
+    #ifdef __unix__
         std::filesystem::path p(argv[1]);
     #elif _WIN64
         std::string p = argv[1];
