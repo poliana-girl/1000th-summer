@@ -3,7 +3,6 @@
 #include <queue>
 #include <chrono>
 
-//TODO: replace any instances of 44100 with get sample rate
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFrags) {
     auto time0 = std::chrono::high_resolution_clock::now();
     std::cout << "finding transients of file..." << std::endl;

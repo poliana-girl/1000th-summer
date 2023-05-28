@@ -3,4 +3,6 @@
 1000th-summer
 *.o
 *.wav
+*.flac
+*.mp3
 .vscode

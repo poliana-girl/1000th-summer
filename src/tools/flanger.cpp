@@ -2,11 +2,7 @@
 #include "../../libs/AudioFile/AudioFile.h"
 
 AudioFile<double> flanger(AudioFile<double> wav, size_t delay) {
-    
-
-
-    
-    
+ 
     //info about wav file
     int numSamples = wav.getNumSamplesPerChannel();
     int numChannels = wav.getNumChannels();
