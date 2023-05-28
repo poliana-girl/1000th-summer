@@ -6,6 +6,12 @@ AudioFile<double> monoToStereo(AudioFile<double> wav) {
     
     //find length of given audio file
     int numSamples = wav.getNumSamplesPerChannel();
+    int numChannels = wav.getNumChannels();
+
+    if (numChannels == 2) {
+        std::cout << "file already has 2 channels!" << std::endl;
+        return wav;
+    }
     
     // create new audio buffer
     AudioFile<double>::AudioBuffer buffer;

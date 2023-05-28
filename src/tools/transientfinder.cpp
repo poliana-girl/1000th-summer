@@ -3,6 +3,7 @@
 #include <queue>
 #include <chrono>
 
+//TODO: replace any instances of 44100 with get sample rate
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFrags) {
     auto time0 = std::chrono::high_resolution_clock::now();
     std::cout << "finding transients of file..." << std::endl;
@@ -10,10 +11,11 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFra
     // info about wav file
     int numSamples = wav.getNumSamplesPerChannel();
     int numChannels = wav.getNumChannels();
+    int sampleRate = wav.getSampleRate();
     
     // constants
-    int istep =  44100 /    10;                        // how often to check for rates of change in original file
-    int offset = 44100 / 30000;                        // rate of change offset; ROC = sample[x + offset] - sample[x]
+    int istep =  sampleRate /    10;                        // how often to check for rates of change in original file
+    int offset = sampleRate / 30000;                        // rate of change offset; ROC = sample[x + offset] - sample[x]
     //int simGrain = 44100 / 20;                       // transient similarity grain. not enabled right now
 
     // rate of change buffer
