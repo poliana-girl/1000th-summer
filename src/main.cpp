@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
         std::filesystem::path p2(argv[2]);
     #elif _WIN64
         std::string p = argv[1];
+        std::string p2 = argv[2];
     #endif
 
     AudioFile<double> wav; wav.load(p);
