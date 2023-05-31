@@ -41,6 +41,12 @@ int main(int argc, char **argv) {
     // wav = normalize(wav);
     // wav.save(p.stem().string() + p2.stem().string() + "-mult.wav");
 
-    wav = integral(wav, 5);
-    wav.save(p.stem().string() + "-intgl.wav");    
+    // wav = integral(wav, 5);
+    // wav.save(p.stem().string() + "-intgl.wav");    
+
+    // wav = exp(wav, 1);
+    // wav.save(p.stem().string() + "-exp.wav");    
+
+    wav = hypot(wav, 1);
+    wav.save(p.stem().string() + "-hypot.wav");    
 }
