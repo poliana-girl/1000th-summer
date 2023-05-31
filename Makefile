@@ -22,7 +22,7 @@ CLEAN :=
 ifeq ($(OSFLAG),WIN32)
 	CLEAN = del /q /s 1000th-summer.exe *.o .fuse_
 else
-	CLEAN = rm -rf 1000th-summer $(OBJ) .fuse_
+	CLEAN = rm -rf 1000th-summer $(OBJ) .fuse_ frags
 endif
 
 all: 1000th-summer

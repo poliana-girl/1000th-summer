@@ -8,8 +8,8 @@ AudioFile<double> monoToStereo(AudioFile<double> wav);
 AudioFile<double> flanger(AudioFile<double> wav, size_t delay);
 AudioFile<double> scatter(AudioFile<double> wav, int splitSize);
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav, int numFrags);
-AudioFile<double> derivative(AudioFile<double> wav);
 AudioFile<double> derivative(AudioFile<double> wav, size_t loop);
 AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2);
+AudioFile<double> integral(AudioFile<double> wav, size_t loop);
 
 #endif

@@ -7,13 +7,13 @@ int main(int argc, char **argv) {
     
     #ifdef __unix__
         std::filesystem::path p(argv[1]);
-        std::filesystem::path p2(argv[2]);
+        //std::filesystem::path p2(argv[2]);
     #elif _WIN64
         std::string p = argv[1];
     #endif
 
     AudioFile<double> wav; wav.load(p);
-    AudioFile<double> wav2; wav2.load(p2);
+    // AudioFile<double> wav2; wav2.load(p2);
     //wav = softClip(wav, 5);
     //wav.save(p.stem().string() + "-softclipped.wav");
 
@@ -36,7 +36,10 @@ int main(int argc, char **argv) {
     // wav = derivative(wav, 10);
     // wav.save(p.stem().string() + "-deriv.wav");
 
-    wav = multiply(wav, wav2);
-    wav = normalize(wav);
-    wav.save(p.stem().string() + p2.stem().string() + "-mult.wav");
+    // wav = multiply(wav, wav2);
+    // wav = normalize(wav);
+    // wav.save(p.stem().string() + p2.stem().string() + "-mult.wav");
+
+    wav = integral(wav, 5);
+    wav.save(p.stem().string() + "-intgl.wav");    
 }
