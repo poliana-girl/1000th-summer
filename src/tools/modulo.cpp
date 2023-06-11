@@ -1,9 +1,11 @@
 #include <iostream>
 #include <algorithm>
+#include <cmath>
+
 #include "../../libs/AudioFile/AudioFile.h"
 #include "tools.h"
 
-AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2) {
+AudioFile<double> modulo(AudioFile<double> wav1, AudioFile<double> wav2) {
 
     int numSamples1 = wav1.getNumSamplesPerChannel();
     int numChannels1 = wav1.getNumChannels();
@@ -24,7 +26,7 @@ AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2) {
     
     for (int channel = 0; channel < bufChannels; channel++) {
         for (int i = 0; i < bufSamples; i++) {
-            buffer[channel][i] = wav1.samples[channel][i] * wav2.samples[channel][i];
+            buffer[channel][i] = std::fmod(wav1.samples[channel][i], wav2.samples[channel][i]);
         }
     }
 

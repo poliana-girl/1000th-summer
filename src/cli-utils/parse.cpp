@@ -1,12 +1,8 @@
 /*
-PROPOSED SYNTAX FOR cli:
+SYNTAX FOR cli:
 
 1000th-summer --distort song.wav
 */
-
-// code adapted from these locations:
-// https://medium.com/@mostsignificant/3-ways-to-parse-command-line-arguments-in-c-quick-do-it-yourself-or-comprehensive-36913284460f
-// https://www.codeguru.com/cplusplus/switch-on-strings-in-c/
 
 #include <cstddef>
 #include <exception>
@@ -115,6 +111,10 @@ AudioFile<double> parse(int argc, char* argv[]) {
         ucase ("--mul"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
             return multiply(wav1, wav2);
+
+        ucase ("--mod"):
+            noArgsTwoInput(argc, argv, command, wav1, wav2);
+            return modulo(wav1, wav2);
         
         default:
             throw std::runtime_error("command not found!");

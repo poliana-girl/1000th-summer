@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
+
 #include "../../libs/AudioFile/AudioFile.h"
+#include "tools.h"
 
 AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop) {
 
@@ -25,6 +27,7 @@ AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop) {
     }
 
     wav.setAudioBuffer(buffer);
+    wav = normalize(wav);
 
     return wav;
 }
