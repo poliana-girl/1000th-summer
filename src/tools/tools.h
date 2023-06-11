@@ -16,5 +16,7 @@ AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop);
 AudioFile<double> softClip(AudioFile<double> wav, double mult);
 AudioFile<double> modulo(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> randGen(double length);
+AudioFile<double> minimum(AudioFile<double> wav1, AudioFile<double> wav2);
+AudioFile<double> maximum(AudioFile<double> wav1, AudioFile<double> wav2);
 
 #endif

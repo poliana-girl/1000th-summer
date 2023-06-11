@@ -121,6 +121,14 @@ AudioFile<double> parse(int argc, char* argv[]) {
         ucase ("--rand"):
             dbl_arg = std::stod(argv[2]);
             return randGen(dbl_arg);
+
+        ucase ("--min"):
+            noArgsTwoInput(argc, argv, command, wav1, wav2);
+            return minimum(wav1, wav2);
+
+        ucase ("--max"):
+            noArgsTwoInput(argc, argv, command, wav1, wav2);
+            return maximum(wav1, wav2);
         
         default:
             throw std::runtime_error("command not found!");
