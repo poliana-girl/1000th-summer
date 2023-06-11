@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+
 #include "../../libs/AudioFile/AudioFile.h"
+#include "tools.h"
 
 AudioFile<double> integral(AudioFile<double> wav, size_t loop) {
 
@@ -30,25 +32,9 @@ AudioFile<double> integral(AudioFile<double> wav, size_t loop) {
         }
     }
 
-    std::vector<double> minmax;
-    double normalFactor;
-
-    for (auto channel : buffer) {
-        minmax.push_back(*std::max_element(channel.begin(), channel.end()));
-        minmax.push_back(abs(*std::min_element(channel.begin(), channel.end()))); 
-    }
-
-    normalFactor = *std::max_element(minmax.begin(), minmax.end());
-    std::cout << normalFactor << std::endl;
-    
-
-    for (int channel = 0; channel < 2; channel++) {
-        for (int i = 0; i < numSamples; i++) {
-            buffer[channel][i] = buffer[channel][i] / normalFactor;
-        }
-    }
 
     wav.setAudioBuffer(buffer);
+    wav = normalize(wav);
 
     return wav;
 }
