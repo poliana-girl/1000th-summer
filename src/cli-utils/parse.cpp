@@ -20,6 +20,8 @@ SYNTAX FOR cli:
 //noArgsTwoInput 
 //intArgMultioutput 
 
+//TODO: split args into ones that are mandatory and ones that are optional
+
 void dblArgSingleInput(int argc, char* argv[], std::string command, AudioFile<double>& wav, double& arg) {
     if (argc != 4)
         throw std::runtime_error(command + ": incorrect amount of input parameters!");
@@ -115,6 +117,10 @@ AudioFile<double> parse(int argc, char* argv[]) {
         ucase ("--mod"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
             return modulo(wav1, wav2);
+
+        ucase ("--rand"):
+            dbl_arg = std::stod(argv[2]);
+            return randGen(dbl_arg);
         
         default:
             throw std::runtime_error("command not found!");
