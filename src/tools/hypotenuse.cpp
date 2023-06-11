@@ -2,7 +2,7 @@
 #include <cmath>
 #include "../../libs/AudioFile/AudioFile.h"
 
-AudioFile<double> hypot(AudioFile<double> wav, size_t loop) {
+AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop) {
 
     //info about wav file
     int numSamples = wav.getNumSamplesPerChannel();
