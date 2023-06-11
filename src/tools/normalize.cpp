@@ -7,15 +7,15 @@ AudioFile<double> normalize(AudioFile<double> wav) {
 
     std::vector<double> maxAmps;
     
-    //find length of given audio file
     int numSamples = wav.getNumSamplesPerChannel();
 
-    for (int channel = 0; channel < 2; channel++) {
-        maxAmps.push_back(*std::max_element(wav.samples[channel].begin(), wav.samples[channel].end()));
-        maxAmps.push_back(std::abs(*std::min_element(wav.samples[channel].begin(), wav.samples[channel].end())));
+    double normalFactor = 0;
+    for (auto channel : wav.samples) {
+        for (auto sample : channel) {
+            if (std::abs(sample) > normalFactor) 
+                normalFactor = std::abs(sample);
+        }
     }
-
-    double normalFactor = *std::max_element(maxAmps.begin(), maxAmps.end());
 
     // create new audio buffer
     AudioFile<double>::AudioBuffer buffer;
