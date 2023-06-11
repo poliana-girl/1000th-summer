@@ -18,5 +18,32 @@ AudioFile<double> modulo(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> randGen(double length);
 AudioFile<double> minimum(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> maximum(AudioFile<double> wav1, AudioFile<double> wav2);
+AudioFile<double> leftShift(AudioFile<double> wav, int shift);
+AudioFile<double> sortAscending(AudioFile<double> wav, double length);
+
+//TEMPLATE FUNCTION
+
+// AudioFile<double> template(AudioFile<double> wav) {
+    
+//     //find length of given audio file
+//     int numSamples = wav.getNumSamplesPerChannel();
+//     int numChannels = wav.getNumChannels();
+    
+//     // create new audio buffer
+//     AudioFile<double>::AudioBuffer buffer;
+//     buffer.resize(numChannels);
+    
+//     for (auto &channel : buffer) 
+//         channel.resize(numSamples);
+
+//     for (int i = 0; i < numSamples; i++) {   
+//         for (int channel = 0; channel < numChannels; channel++) {
+//             buffer[channel][i] = wav.samples[channel][i];
+//         }
+//     }
+
+//     wav.setAudioBuffer(buffer);
+//     return wav;
+// }
 
 #endif

@@ -2,7 +2,7 @@ CC = clang++
 CFLAGS = -g
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
-LDFLAGS = -g
+LDFLAGS = -g -lX11
 
 OSFLAG 				:=
 ifeq ($(OS),Windows_NT)

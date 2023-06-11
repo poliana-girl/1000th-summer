@@ -129,6 +129,14 @@ AudioFile<double> parse(int argc, char* argv[]) {
         ucase ("--max"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
             return maximum(wav1, wav2);
+
+        ucase ("--lsh"):
+            intArgSingleInput(argc, argv, command, wav1, int_arg);
+            return leftShift(wav1, int_arg);
+
+        ucase ("--asc"):
+            dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
+            return sortAscending(wav1, dbl_arg);
         
         default:
             throw std::runtime_error("command not found!");
