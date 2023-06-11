@@ -77,24 +77,14 @@ mapTools["--strans"] = TransientFinder; -->
 
 ## Binary (taking 2 wavs)
 
-**Add (not yet implemented!)**: add the signals of two audio files.
-```
-1000th-summer --add audio1.wav audio2.wav
-```
-
-**Subtract (not yet implemented!)**: subtract the signals of two audio files.
-```
-1000th-summer --sub audio1.wav audio2.wav
-```
-
 **Multiply**: multiply the signals of two audio files.
 ```
 1000th-summer --mul audio1.wav audio2.wav
 ```
 
-**Divide (not yet implemented!)**: divide the signals of two audio files.
+**Modulo**: find remainder of one audio signal divided by another.
 ```
-1000th-summer --div audio1.wav audio2.wav
+1000th-summer --mod audio1.wav audio2.wav
 ```
 
 # Building
