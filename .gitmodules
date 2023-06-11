@@ -4,3 +4,6 @@
 [submodule "libs/uberswitch"]
 	path = libs/uberswitch
 	url = https://github.com/falemagn/uberswitch.git
+[submodule "libs/CImg"]
+	path = libs/CImg
+	url = https://github.com/GreycLab/CImg.git
