@@ -2,6 +2,8 @@
 #include "../../libs/AudioFile/AudioFile.h"
 #include <random>
 
+
+//TODO: make splitSize be seconds, not samples
 AudioFile<double> scatter(AudioFile<double> wav, int splitSize) {
     std::cout << "scattering file with split size of " << splitSize << "..." << std::endl;
     

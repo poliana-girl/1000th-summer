@@ -13,5 +13,6 @@ AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> integral(AudioFile<double> wav, size_t loop);
 AudioFile<double> exp(AudioFile<double> wav, size_t loop);
 AudioFile<double> hypot(AudioFile<double> wav, size_t loop);
+AudioFile<double> softClip(AudioFile<double> wav, double mult);
 
 #endif

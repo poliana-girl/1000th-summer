@@ -1,19 +1,18 @@
 #include <filesystem>
 #include <string>
+
 #include "../libs/AudioFile/AudioFile.h"
 #include "tools/tools.h"
+#include "cli-utils/cli.h"
 
 int main(int argc, char **argv) { 
     
-    #ifdef __unix__
-        std::filesystem::path p(argv[1]);
-        //std::filesystem::path p2(argv[2]);
-    #elif _WIN64
-        std::string p = argv[1];
-        std::string p2 = argv[2];
-    #endif
+    
+    // std::filesystem::path p(argv[1]);
+    // std::filesystem::path p2(argv[2]);
+    
 
-    AudioFile<double> wav; wav.load(p);
+    // AudioFile<double> wav; wav.load(p);
     // AudioFile<double> wav2; wav2.load(p2);
     //wav = softClip(wav, 5);
     //wav.save(p.stem().string() + "-softclipped.wav");
@@ -47,6 +46,12 @@ int main(int argc, char **argv) {
     // wav = exp(wav, 1);
     // wav.save(p.stem().string() + "-exp.wav");    
 
-    wav = hypot(wav, 1);
-    wav.save(p.stem().string() + "-hypot.wav");    
+    // wav = hypot(wav, 1);
+    // wav.save(p.stem().string() + "-hypot.wav");    
+
+    auto out = parse(argc, argv);
+    printf("op done\n");
+    out.save("./test.wav");
+    printf("saved\n");
+
 }
