@@ -2,7 +2,7 @@ CC = clang++
 CFLAGS = -g
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
-LDFLAGS = -g -lX11
+LDFLAGS = -g
 
 OSFLAG 				:=
 ifeq ($(OS),Windows_NT)
@@ -16,6 +16,10 @@ else
 		OSFLAG += OSX
 	endif
 		UNAME_P := $(shell uname -p)
+endif
+
+ifeq ($(OSFLAG), LINUX)
+	LDFLAGS += -lX11
 endif
 
 CLEAN :=

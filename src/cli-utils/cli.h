@@ -3,6 +3,6 @@
 
 #include "../../libs/AudioFile/AudioFile.h"
 
-AudioFile<double> parse(int argc, char* argv[]);
+std::vector<AudioFile<double>> parse(int argc, char* argv[], std::string& filename);
 
 #endif

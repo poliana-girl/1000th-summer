@@ -3,20 +3,14 @@ c++ (wav) audio tools! coded by chayagirl.
 
 # Tools
 
-## Unary (taking 1 wav)
+## No Input
 
-<!-- mapTools["--deriv"] = Derivative;
-mapTools["--dist"] = Distort;
-mapTools["--exp"] = Exponent;
-mapTools["--flgr"] = Flanger;
-mapTools["--hypot"] = Hypotenuse;
-mapTools["--intgl"] = Integral;
-mapTools["--mtos"] = MonoToStereo;
-mapTools["--mult"] = Multiply;
-mapTools["--norm"] = Normalize;
-mapTools["--sctr"] = Scatter;
-mapTools["--sfclp"] = SoftClip;
-mapTools["--strans"] = TransientFinder; -->
+**Random Generation**: generates a new audio signal. takes a length in seconds.
+```
+1000th-summer --rand audio.wav length
+```
+
+## Unary (taking 1 wav)
 
 **Flanger**: flanges the audio according to a delay value (in ms)
 ```
@@ -73,6 +67,16 @@ mapTools["--strans"] = TransientFinder; -->
 1000th-summer --strans audio.wav numfrags
 ```
 
+**Left Shift**: shift the bit value of each double precision floating point sample by a certain value.
+```
+1000th-summer --lsh audio.wav value
+```
+
+**Sort Ascending**: Sort an audio signal by taking the average of a fragment of samples sorting them ascendingly. takes a length (in seconds) of a fragment.
+```
+1000th-summer --asc audio.wav length
+```
+
 
 
 ## Binary (taking 2 wavs)
@@ -86,6 +90,18 @@ mapTools["--strans"] = TransientFinder; -->
 ```
 1000th-summer --mod audio1.wav audio2.wav
 ```
+
+**Min**: produces a signal composed of the minimum sample value at any point in each audio signal.
+```
+1000th-summer --min audio1.wav audio2.wav
+```
+
+**Max**: produces a signal composed of the maximum sample value at any point in each audio signal.
+```
+1000th-summer --max audio1.wav audio2.wav
+```
+
+
 
 # Building
 ```

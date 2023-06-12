@@ -20,6 +20,38 @@ SYNTAX FOR cli:
 //noArgsTwoInput 
 //intArgMultioutput 
 
+std::string remove_extension(const std::string& path) {
+    if (path == "." || path == "..")
+        return path;
+
+    size_t pos = path.find_last_of("\\/.");
+    if (pos != std::string::npos && path[pos] == '.')
+        return path.substr(0, pos);
+
+    return path;
+}
+
+std::string nameSingleInput(char **argv) {
+    std::string stem = remove_extension(argv[2]);
+    std::string op = argv[1];
+    op.erase(0, 1);
+    //op = op.substr(1, *op.end()); 
+    //std::cout << op << std::endl;
+
+    return stem + op;
+}
+
+std::string nameTwoInput(char **argv) {
+    std::string stem1 = remove_extension(argv[2]);
+    std::string stem2 = remove_extension(argv[3]);
+    std::string op = argv[1];
+    op.erase(0, 1);
+    //op = op.substr(1, *op.end()); 
+    //std::cout << op << std::endl;
+
+    return stem1 + "-" + stem2 + op;
+}
+
 //TODO: split args into ones that are mandatory and ones that are optional
 
 void dblArgSingleInput(int argc, char* argv[], std::string command, AudioFile<double>& wav, double& arg) {
@@ -56,7 +88,9 @@ void noArgsTwoInput(int argc, char* argv[], std::string command, AudioFile<doubl
 
 
 
-AudioFile<double> parse(int argc, char* argv[]) {
+std::vector<AudioFile<double>> parse(int argc, char* argv[], std::string& filename) {
+
+    std::vector<AudioFile<double>> wavs;
 
     std::string command = argv[1];
     AudioFile<double> wav1;
@@ -69,76 +103,113 @@ AudioFile<double> parse(int argc, char* argv[]) {
 
         ucase ("--flgr"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return flanger(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(flanger(wav1, int_arg));
+            break;
 
         ucase ("--dist"):
             dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
-            return distort(wav1, dbl_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(distort(wav1, dbl_arg));
+            break;
 
         ucase ("--mtos"):
             noArgsSingleInput(argc, argv, command, wav1);
-            return monoToStereo(wav1);
+            filename = nameSingleInput(argv);
+            wavs.push_back(monoToStereo(wav1));
+            break;
 
         ucase ("--norm"):
             noArgsSingleInput(argc, argv, command, wav1);
-            return normalize(wav1);
+            filename = nameSingleInput(argv);
+            wavs.push_back(normalize(wav1));
+            break;
 
         ucase ("--deriv"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return derivative(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(derivative(wav1, int_arg));
+            break;
 
         ucase ("--intgl"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return integral(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(integral(wav1, int_arg));
+            break;
 
         ucase ("--exp"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return exponent(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(exponent(wav1, int_arg));
+            break;
 
         ucase ("--sctr"):
             dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
-            return scatter(wav1, dbl_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(scatter(wav1, dbl_arg));
+            break;
 
         ucase ("--sfclp"):
             dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
-            return softClip(wav1, dbl_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(softClip(wav1, dbl_arg));
+            break;
 
         ucase ("--hypot"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return hypotenuse(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(hypotenuse(wav1, int_arg));
+            break;
 
         ucase ("--strans"):
-            throw std::runtime_error("command not implemented yet!");
+            intArgSingleInput(argc, argv, command, wav1, int_arg);
+            filename = nameSingleInput(argv);
+            return transientFinder(wav1, int_arg);
 
         ucase ("--mul"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
-            return multiply(wav1, wav2);
+            filename = nameTwoInput(argv);
+            wavs.push_back(multiply(wav1, wav2));
+            break;
 
         ucase ("--mod"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
-            return modulo(wav1, wav2);
+            filename = nameTwoInput(argv);
+            wavs.push_back(modulo(wav1, wav2));
+            break;
 
         ucase ("--rand"):
             dbl_arg = std::stod(argv[2]);
-            return randGen(dbl_arg);
+            wavs.push_back(randGen(dbl_arg));
+            break;
 
         ucase ("--min"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
-            return minimum(wav1, wav2);
+            filename = nameTwoInput(argv);
+            wavs.push_back(minimum(wav1, wav2));
+            break;
 
         ucase ("--max"):
             noArgsTwoInput(argc, argv, command, wav1, wav2);
-            return maximum(wav1, wav2);
+            filename = nameTwoInput(argv);
+            wavs.push_back(maximum(wav1, wav2));
+            break;
 
         ucase ("--lsh"):
             intArgSingleInput(argc, argv, command, wav1, int_arg);
-            return leftShift(wav1, int_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(leftShift(wav1, int_arg));
+            break;
 
         ucase ("--asc"):
             dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
-            return sortAscending(wav1, dbl_arg);
+            filename = nameSingleInput(argv);
+            wavs.push_back(sortAscending(wav1, dbl_arg));
+            break;
         
         default:
             throw std::runtime_error("command not found!");
     }
+
+    return wavs;
 }

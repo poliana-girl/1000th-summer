@@ -14,7 +14,7 @@ AudioFile<double> normalize(AudioFile<double> wav) {
         for (auto sample : channel) {
             if (std::abs(sample) > normalFactor) {
                 normalFactor = std::abs(sample);
-                std::cout << normalFactor << std::endl;
+                //std::cout << normalFactor << std::endl;
             }
         }
     }

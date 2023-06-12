@@ -20,6 +20,7 @@ AudioFile<double> minimum(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> maximum(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> leftShift(AudioFile<double> wav, int shift);
 AudioFile<double> sortAscending(AudioFile<double> wav, double length);
+AudioFile<double> rawData(std::ifstream file);
 
 //TEMPLATE FUNCTION
 
