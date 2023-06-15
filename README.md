@@ -7,7 +7,7 @@ c++ (wav) audio tools! coded by chayagirl.
 
 **Random Generation**: generates a new audio signal. takes a length in seconds.
 ```
-1000th-summer --rand audio.wav length
+1000th-summer --rand length
 ```
 
 ## Unary (taking 1 wav)
@@ -72,12 +72,15 @@ c++ (wav) audio tools! coded by chayagirl.
 1000th-summer --lsh audio.wav value
 ```
 
-**Sort Ascending**: Sort an audio signal by taking the average of a fragment of samples sorting them ascendingly. takes a length (in seconds) of a fragment.
+**Sort Ascending (currently doesnt do what i want lmfao)**: Sort an audio signal by taking the average of a fragment of samples sorting them ascendingly. takes a length (in seconds) of a fragment.
 ```
 1000th-summer --asc audio.wav length
 ```
 
-
+**Fast Fourier Transform**: find FFT of a given audio file.
+```
+1000th-summer --fft audio.wav
+```
 
 ## Binary (taking 2 wavs)
 
