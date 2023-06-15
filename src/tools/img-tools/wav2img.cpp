@@ -4,25 +4,29 @@
 
 using namespace cimg_library;
 
-CImg<double> wavToImage(AudioFile<double> wav) {
+std::vector<CImg<double>> wavToImage(AudioFile<double> wav) {
+    std::vector<CImg<double>> imgs;
 
     int numSamples = wav.getNumSamplesPerChannel();
+    int numChannels = wav.getNumChannels();
 
     int width = 3000;
     int height = numSamples / width;
 
-    CImg<double> img(width, height, 1, 1, 0);
-
-    int channel = 0;
-    int i = 0;
-    for (CImg<double>::iterator it = img.begin(); it < img.end(); ++it) {
-        
-        if (i > numSamples) break;
-        *it = (wav.samples[channel][i] + 1.0) / 2.0 * 255.0;
-        i++;
+    for (int channel = 0; channel < numChannels; channel++) {
+        CImg<double> img(width, height, 1, 1, 0);
+        int i = 0;
+        for (CImg<double>::iterator it = img.begin(); it < img.end(); ++it) {
+            
+            if (i > numSamples) break;
+            *it = (wav.samples[channel][i] + 1.0) / 2.0 * 255.0;
+            i++;
+        }
+        imgs.push_back(img);
     }
+    
 
     //img.fill(100);
 
-    return img;
+    return imgs;
 }

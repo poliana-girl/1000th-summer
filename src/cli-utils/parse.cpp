@@ -206,6 +206,22 @@ std::vector<AudioFile<double>> parse(int argc, char* argv[], std::string& filena
             filename = nameSingleInput(argv);
             wavs.push_back(sortAscending(wav1, dbl_arg));
             break;
+
+        ucase ("--raw"):
+            throw std::runtime_error("not yet implemented!");
+            break;
+
+        ucase ("--fft"):
+            noArgsSingleInput(argc, argv, command, wav1);
+            filename = nameSingleInput(argv);
+            wavs.push_back(fastFourierTransform(wav1));
+            break;
+
+        ucase ("--weird"):
+            noArgsSingleInput(argc, argv, command, wav1);
+            filename = nameSingleInput(argv);
+            wavs.push_back(weirdFn(wav1));
+            break;
         
         default:
             throw std::runtime_error("command not found!");

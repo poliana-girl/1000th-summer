@@ -1,43 +1,40 @@
 #include <iostream>
 
-#include "tools.h"
 #include "../../libs/AudioFile/AudioFile.h"
+#include "tools.h"
 
-
-bool randomBool() {
-    return rand() > (RAND_MAX / 2);
-}
+bool randomBool() { return rand() > (RAND_MAX / 2); }
 
 AudioFile<double> randGen(double length) {
-    srand(time(0));
-    int numSamples = length * 44100;
-    
-    AudioFile<double>::AudioBuffer buffer;
-    AudioFile<double> wav;
+  srand(time(0));
+  int numSamples = length * 44100;
 
-    buffer.resize(2);
-    buffer[0].resize(numSamples);
-    buffer[1].resize(numSamples);
+  AudioFile<double>::AudioBuffer buffer;
+  AudioFile<double> wav;
 
-    for (auto &channel : buffer) {
-        double value = 0;
-        for (auto &sample : channel) {
+  buffer.resize(2);
+  buffer[0].resize(numSamples);
+  buffer[1].resize(numSamples);
 
-            bool coin = randomBool();
+  for (auto &channel : buffer) {
+    double value = 0;
+    for (auto &sample : channel) {
 
-            if (coin) {
-                value = value + 0.001;
-            } else {
-                value = value - 0.001;
-            }
+      bool coin = randomBool();
 
-            //std::cout << value << std::endl;
+      if (coin) {
+        value = value + 0.001;
+      } else {
+        value = value - 0.001;
+      }
 
-            sample = value;
-        }
+      // std::cout << value << std::endl;
+
+      sample = value;
     }
+  }
 
-    wav.setAudioBuffer(buffer);
-    wav = normalize(wav);
-    return wav;
+  wav.setAudioBuffer(buffer);
+  wav = normalize(wav);
+  return wav;
 }

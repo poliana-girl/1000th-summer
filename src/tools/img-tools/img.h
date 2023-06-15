@@ -6,7 +6,7 @@
 
 using namespace cimg_library;
 
-CImg<double> wavToImage(AudioFile<double> wav);
-AudioFile<double> imageToWav(CImg<double> img);
+std::vector<CImg<double>> wavToImage(AudioFile<double> wav);
+AudioFile<double> imageToWav(std::vector<CImg<double>> imgs);
 
 #endif
