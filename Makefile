@@ -1,8 +1,9 @@
 CC = clang++
-CFLAGS = -g
+CFLAGS = -g -std=c++17
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
 LDFLAGS = -g
+BIN = 1000th-summer
 
 OSFLAG 				:=
 ifeq ($(OS),Windows_NT)
@@ -22,9 +23,13 @@ ifeq ($(OSFLAG), LINUX)
 	LDFLAGS += -lX11
 endif
 
+ifeq ($(OSFLAG), WIN32)
+	BIN = 1000th-summer.exe
+endif
+
 CLEAN :=
 ifeq ($(OSFLAG),WIN32)
-	CLEAN = del /q /s 1000th-summer.exe *.o .fuse_
+	CLEAN = del /q /s 1000th-summer.exe *.o .fuse_ 1000th-summer.ilk 1000th-summer.pdb
 else
 	CLEAN = rm -rf 1000th-summer $(OBJ) .fuse_ frags
 endif
@@ -32,7 +37,7 @@ endif
 all: 1000th-summer
 
 1000th-summer: $(OBJ)
-	$(CC) -o 1000th-summer $^ $(LDFLAGS)
+	$(CC) -o $(BIN) $^ $(LDFLAGS)
 
 %.o: %.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)

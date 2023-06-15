@@ -11,3 +11,5 @@
 *.png
 *.jpg
 .fake
+*.pdb
+*.ilk

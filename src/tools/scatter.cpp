@@ -1,6 +1,10 @@
 #include "../../libs/AudioFile/AudioFile.h"
+
 #include <filesystem>
 #include <random>
+#include <chrono>
+#include <numeric>
+
 
 // TODO: make splitSize be seconds, not samples
 AudioFile<double> scatter(AudioFile<double> wav, int splitSize) {

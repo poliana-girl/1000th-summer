@@ -16,7 +16,6 @@ AudioFile<double> exponent(AudioFile<double> wav, double power) {
   AudioFile<double>::AudioBuffer buffer;
   buffer = wav.samples;
 
-  std::cout << "iteration #" << r << std::endl;
   for (int channel = 0; channel < numChannels; channel++) {
     for (int i = 0; i < numSamples && i + 1 + offset < numSamples; i++) {
       buffer[channel][i] = pow(buffer[channel][i], power);

@@ -12,7 +12,7 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
 AudioFile<double> derivative(AudioFile<double> wav, size_t loop);
 AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2);
 AudioFile<double> integral(AudioFile<double> wav, size_t loop);
-AudioFile<double> exponent(AudioFile<double> wav, size_t loop);
+AudioFile<double> exponent(AudioFile<double> wav, double power);
 AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop);
 AudioFile<double> softClip(AudioFile<double> wav, double mult);
 AudioFile<double> modulo(AudioFile<double> wav1, AudioFile<double> wav2);

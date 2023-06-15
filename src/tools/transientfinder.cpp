@@ -1,11 +1,9 @@
 #include "../../libs/AudioFile/AudioFile.h"
-#include <chrono>
 #include <iostream>
 #include <queue>
 
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
                                                int numFrags) {
-  auto time0 = std::chrono::high_resolution_clock::now();
   std::cout << "finding transients of file..." << std::endl;
 
   // info about wav file
@@ -13,28 +11,22 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
   int numChannels = wav.getNumChannels();
   int sampleRate = wav.getSampleRate();
 
-  // constants
-  int istep = sampleRate /
-              10; // how often to check for rates of change in original file
-  int offset =
-      sampleRate /
-      30000; // rate of change offset; ROC = sample[x + offset] - sample[x]
-  // int simGrain = 44100 / 20;                       // transient similarity
-  // grain. not enabled right now
+  // how often to check for rates of change in original file
+  int istep = sampleRate / 10;
+  // rate of change offset; ROC = sample[x + offset] - sample[x]
+  int offset = sampleRate / 30000;
 
   // rate of change buffer
-  AudioFile<double>::AudioBuffer
-      rocBuffer; // buffer to store rates of fragschange
-  int bufChannelSize = numSamples / istep; // size of each channel in rocBuffer
+  AudioFile<double>::AudioBuffer rocBuffer;
+  // size of each channel in rocBuffer
+  int bufChannelSize = numSamples / istep;
 
-  // sorting rates of change
-  std::priority_queue<std::pair<
-      double, int>> // stores each channel's rates of change in ascending order,
-      sortedBuf[numChannels]; // along with its original position in the file
-  int sortedTopIdx; // sample position in file of max rate of change in channel
-                    // of sortedBuf
-  std::vector<int>
-      transHolder; // stores sample positions of the highest rates of change
+  // stores each channel's rates of change and index
+  std::priority_queue<std::pair<double, int>> sortedBuf[numChannels];
+  // sample position in file of max rate of change in channel of sortedBuf
+  int sortedTopIdx;
+  // stores sample positions of the highest rates of change
+  std::vector<int> transHolder;
 
   // variables used in finding fragments
   int posTracker = 0; // tracks the position of transHolder
@@ -42,8 +34,8 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
   int start;          // start of current fragment (a position (index) in wav)
   int end;            // end of current fragment   (a position (index) in wav)
 
-  std::vector<AudioFile<double>>
-      frags; // stores produced fragments of original file
+  // stores produced fragments of original file
+  std::vector<AudioFile<double>> frags;
 
   //=============================================================
 
@@ -52,7 +44,6 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
     channel.resize(bufChannelSize);
 
   // find rate of change between samples
-  std::cout << "getting rate of change between samples..." << std::endl;
   for (int channel = 0; channel < numChannels; channel++) {
     for (int i = 0; i < numSamples && i + 1 + offset < numSamples; i += istep) {
       rocBuffer[channel][i / istep] =
@@ -61,7 +52,6 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
   }
 
   // sort rates of change
-  std::cout << "sorting rates of change..." << std::endl;
   for (int channel = 0; channel < numChannels; channel++) {
     for (int i = 0; i < numSamples / istep; i++) {
       sortedBuf[channel].push(std::pair<double, int>(rocBuffer[channel][i], i));
@@ -86,20 +76,21 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
     AudioFile<double>::AudioBuffer tempbuf;
     tempbuf.resize(numChannels);
 
-    if (posTracker == 0 && transHolder[posTracker] != 0 &&
-        fragProg ==
-            0) { // starting condition: first fragment starts at sample 0
+    // starting condition: first fragment starts at sample 0
+    if (posTracker == 0 && transHolder[posTracker] != 0 && fragProg == 0) {
       start = 0;
       end = transHolder[posTracker];
-    } else if (fragProg == numFrags - 1) { // ending condition: last fragment
-                                           // ends at last sample of file
+    }
+    // ending condition: last fragment ends at last sample of file
+    else if (fragProg == numFrags - 1) {
       start = transHolder[posTracker];
       end = numSamples;
-    } else {
+    }
+    // default condition: any other fragment starts at a sample in transHolder
+    // and ends at the next sample
+    else {
       start = transHolder[posTracker];
-      end = transHolder[posTracker +
-                        1]; // default condition: any other fragment starts at a
-                            // sample in transHolder and ends at the next sample
+      end = transHolder[posTracker + 1];
     }
 
     // put fragment in audio file
@@ -118,11 +109,5 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
     fragProg++;
     tempbuf.clear();
   }
-
-  auto time1 = std::chrono::high_resolution_clock::now();
-  auto duration =
-      std::chrono::duration_cast<std::chrono::milliseconds>(time1 - time0);
-  float secs = (float)duration.count() / 1000;
-  std::cout << "Time taken by function: " << secs << " seconds" << std::endl;
   return frags;
 }
