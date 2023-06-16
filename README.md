@@ -75,6 +75,16 @@ c++ (wav) audio tools! coded by chayagirl.
 1000th-summer --fft audio.wav
 ```
 
+**Blur**: make the audio file sound blurry.
+```
+1000th-summer --blur audio.wav
+```
+
+**Laplace Transform**: find the Laplacian Transform of the audio file.
+```
+1000th-summer --lapl audio.wav
+```
+
 ## Binary (taking 2 wavs)
 
 **Multiply**: multiply the signals of two audio files.
