@@ -3,13 +3,6 @@ c++ (wav) audio tools! coded by chayagirl.
 
 # Tools
 
-## No Input
-
-**Random Generation**: generates a new audio signal. takes a length in seconds.
-```
-1000th-summer --rand length
-```
-
 ## Unary (taking 1 wav)
 
 **Flanger**: flanges the audio according to a delay value (in ms)
@@ -104,7 +97,17 @@ c++ (wav) audio tools! coded by chayagirl.
 1000th-summer --max audio1.wav audio2.wav
 ```
 
+## Weird Ones
 
+**Random Generation**: generates a new audio signal. takes a length in seconds.
+```
+1000th-summer --rand length
+```
+
+**Raw Data**: convert a file's ones and zeroes into a wav file... fucked up.
+ ```
+1000th-summer --raw any-file
+```
 
 # Building
 ```
