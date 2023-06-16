@@ -1,4 +1,4 @@
-CC = clang++
+CC = g++
 CFLAGS = -g -std=c++17
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
@@ -24,8 +24,12 @@ ifeq ($(OSFLAG), LINUX)
 endif
 
 ifeq ($(OSFLAG), WIN32)
-	BIN = 1000th-summer.exe
+	LDFLAGS += -lgdi32
 endif
+
+# ifeq ($(OSFLAG), WIN32)
+# 	BIN = 1000th-summer.exe
+# endif
 
 CLEAN :=
 ifeq ($(OSFLAG),WIN32)

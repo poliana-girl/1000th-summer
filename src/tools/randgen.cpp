@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 #include "../../libs/AudioFile/AudioFile.h"
 #include "tools.h"

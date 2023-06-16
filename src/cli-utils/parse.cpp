@@ -15,7 +15,6 @@ SYNTAX FOR cli:
 #include <string_view>
 #include <utility>
 
-
 // noArgsSingleInput
 // intArgSingleInput
 // noArgsTwoInput
@@ -99,6 +98,8 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
   std::string command = argv[1];
   AudioFile<double> wav1;
   AudioFile<double> wav2;
+
+  std::ifstream file;
 
   double dbl_arg;
   int int_arg;
@@ -194,7 +195,10 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     wavs.push_back(sortAscending(wav1, dbl_arg));
     break;
 
-    ucase("--raw") : throw std::runtime_error("not yet implemented!");
+    ucase("--raw") : 
+    file.open(argv[2], std::ios::in|std::ios::binary|std::ios::ate);
+    filename = nameSingleInput(argv);
+    wavs.push_back(rawData(std::move(file)));
     break;
 
     ucase("--fft") : noArgsSingleInput(argc, argv, command, wav1);
