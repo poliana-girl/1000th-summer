@@ -223,6 +223,16 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     wavs.push_back(laplaceTransform(wav1));
     break;
 
+    ucase("--bang") : noArgsSingleInput(argc, argv, command, wav1);
+    filename = nameSingleInput(argv);
+    wavs.push_back(bang(wav1));
+    break;
+
+    ucase("--epic") : noArgsSingleInput(argc, argv, command, wav1);
+    filename = nameSingleInput(argv);
+    wavs.push_back(epic(wav1));
+    break;
+
   default:
     throw std::runtime_error("command not found!");
   }

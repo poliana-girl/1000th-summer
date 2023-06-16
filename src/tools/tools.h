@@ -24,6 +24,8 @@ AudioFile<double> sortAscending(AudioFile<double> wav, double length);
 AudioFile<double> rawData(std::ifstream file);
 AudioFile<double> fastFourierTransform(AudioFile<double> wav);
 AudioFile<double> weirdFn(AudioFile<double> wav);
+AudioFile<double> bang(AudioFile<double> wav);
+AudioFile<double> epic(AudioFile<double> wav);
 
 // TEMPLATE FUNCTION
 

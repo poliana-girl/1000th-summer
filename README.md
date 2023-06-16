@@ -1,5 +1,5 @@
 # 1000th-summer
-c++ (wav) audio tools! coded by chayagirl.
+c++ CLI (wav) audio tools! coded by chayagirl.
 
 # Tools
 
