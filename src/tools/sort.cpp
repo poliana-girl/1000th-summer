@@ -6,6 +6,8 @@
 #include "../../libs/AudioFile/AudioFile.h"
 
 AudioFile<double> sortAscending(AudioFile<double> wav, double length) {
+  std::cout << "sorting file with segments of length " << length << "s..."
+            << std::endl;
 
   // find length of given audio file
   int numSamples = wav.getNumSamplesPerChannel();

@@ -10,6 +10,8 @@
 #include "tools/img-tools/img.h"
 #include "tools/tools.h"
 
+
+
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
@@ -46,9 +48,9 @@ int main(int argc, char **argv) {
 
   //     //img = img.abs();
 
-  //     img = img.quantize(4);
+  //     //img = img.quantize(4);
 
-  //     std::string filename = "img-" + std::to_string(i) + ".png";
+  //     std::string filename = "img-" + std::to_string(i) + ".bmp";
   //     auto filename_c = filename.c_str();
   //     img.save(filename_c);
   // }

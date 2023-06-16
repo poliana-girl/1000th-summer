@@ -4,9 +4,6 @@ SYNTAX FOR cli:
 1000th-summer --distort song.wav
 */
 
-#include "../../libs/AudioFile/AudioFile.h"
-#include "../../libs/uberswitch/include/uberswitch/uberswitch.hpp"
-#include "../tools/tools.h"
 #include <cstddef>
 #include <exception>
 #include <iostream>
@@ -14,6 +11,11 @@ SYNTAX FOR cli:
 #include <string>
 #include <string_view>
 #include <utility>
+
+#include "../../libs/AudioFile/AudioFile.h"
+#include "../../libs/uberswitch/include/uberswitch/uberswitch.hpp"
+#include "../tools/img-tools/img.h"
+#include "../tools/tools.h"
 
 // noArgsSingleInput
 // intArgSingleInput
@@ -195,8 +197,8 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     wavs.push_back(sortAscending(wav1, dbl_arg));
     break;
 
-    ucase("--raw") : 
-    file.open(argv[2], std::ios::in|std::ios::binary|std::ios::ate);
+    ucase("--raw")
+        : file.open(argv[2], std::ios::in | std::ios::binary | std::ios::ate);
     filename = nameSingleInput(argv);
     wavs.push_back(rawData(std::move(file)));
     break;
@@ -209,6 +211,16 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     ucase("--weird") : noArgsSingleInput(argc, argv, command, wav1);
     filename = nameSingleInput(argv);
     wavs.push_back(weirdFn(wav1));
+    break;
+
+    ucase("--blur") : dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
+    filename = nameSingleInput(argv);
+    wavs.push_back(blur(wav1, dbl_arg));
+    break;
+
+    ucase("--lapl") : noArgsSingleInput(argc, argv, command, wav1);
+    filename = nameSingleInput(argv);
+    wavs.push_back(laplaceTransform(wav1));
     break;
 
   default:

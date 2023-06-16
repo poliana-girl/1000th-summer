@@ -2,6 +2,8 @@
 #include <iostream>
 
 AudioFile<double> flanger(AudioFile<double> wav, size_t delay) {
+  std::cout << "flanging file with a delay of " << delay << " ms..."
+            << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();

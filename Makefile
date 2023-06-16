@@ -2,8 +2,14 @@ CC = g++
 CFLAGS = -g -std=c++17
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
-LDFLAGS = -g
+LDFLAGS = -g 
 BIN = 1000th-summer
+RELEASE = -static -static-libgcc -static-libstdc++
+
+ifeq ($(r), 1)
+	CFLAGS += $(RELEASE)
+	LDFLAGS += $(RELEASE)
+endif
 
 OSFLAG 				:=
 ifeq ($(OS),Windows_NT)
@@ -55,3 +61,4 @@ clean:
 
 os:
 	echo $(OSFLAG)
+	

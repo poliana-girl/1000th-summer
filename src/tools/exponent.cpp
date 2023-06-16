@@ -3,6 +3,7 @@
 #include <iostream>
 
 AudioFile<double> exponent(AudioFile<double> wav, double power) {
+  std::cout << "raising file to power " << power << "..." << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();

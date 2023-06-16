@@ -2,6 +2,7 @@
 #include <iostream>
 
 AudioFile<double> derivative(AudioFile<double> wav, size_t loop) {
+  std::cout << "finding " << loop << "th derivative of file..." << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();

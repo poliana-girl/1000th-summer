@@ -50,6 +50,7 @@ void weird2(CArray &channelVA) {
 }
 
 AudioFile<double> weirdFn(AudioFile<double> wav) {
+  std::cout << "idk abt this one..." << std::endl;
 
   // find length of given audio file
   int numSamples = wav.getNumSamplesPerChannel();

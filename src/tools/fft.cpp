@@ -42,6 +42,7 @@ void fft(CArray &channelVA) {
 }
 
 AudioFile<double> fastFourierTransform(AudioFile<double> wav) {
+  std::cout << "computing fast fourier transform of file..." << std::endl;
 
   int numSamples = wav.getNumSamplesPerChannel();
   int numChannels = wav.getNumChannels();

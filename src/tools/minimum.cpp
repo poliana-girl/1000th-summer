@@ -4,6 +4,7 @@
 #include <iostream>
 
 AudioFile<double> minimum(AudioFile<double> wav1, AudioFile<double> wav2) {
+  std::cout << "computing minimum of files..." << std::endl;
 
   int numSamples1 = wav1.getNumSamplesPerChannel();
   int numChannels1 = wav1.getNumChannels();

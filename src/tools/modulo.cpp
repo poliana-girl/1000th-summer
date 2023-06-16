@@ -6,6 +6,7 @@
 #include "tools.h"
 
 AudioFile<double> modulo(AudioFile<double> wav1, AudioFile<double> wav2) {
+  std::cout << "computing modulus between files..." << std::endl;
 
   int numSamples1 = wav1.getNumSamplesPerChannel();
   int numChannels1 = wav1.getNumChannels();

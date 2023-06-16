@@ -7,6 +7,8 @@
 bool randomBool() { return rand() > (RAND_MAX / 2); }
 
 AudioFile<double> randGen(double length) {
+  std::cout << "generating random file " << length << "s long..." << std::endl;
+
   srand(time(0));
   int numSamples = length * 44100;
 

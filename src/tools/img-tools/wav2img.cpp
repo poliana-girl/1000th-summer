@@ -8,6 +8,8 @@
 #pragma comment(lib, "Shell32.lib")
 #endif
 
+
+
 using namespace cimg_library;
 
 std::vector<CImg<double>> wavToImage(AudioFile<double> wav) {

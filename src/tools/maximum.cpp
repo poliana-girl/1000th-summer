@@ -4,6 +4,8 @@
 #include <iostream>
 
 AudioFile<double> maximum(AudioFile<double> wav1, AudioFile<double> wav2) {
+  std::cout << "computing maximum of files..." << std::endl;
+
 
   int numSamples1 = wav1.getNumSamplesPerChannel();
   int numChannels1 = wav1.getNumChannels();

@@ -4,6 +4,9 @@
 #include "tools.h"
 
 AudioFile<double> leftShift(AudioFile<double> wav, int shift) {
+  std::cout << "computing file shifted " << shift << " bits to the left..."
+            << std::endl;
+
   // find length of given audio file
   int numSamples = wav.getNumSamplesPerChannel();
   int numChannels = wav.getNumChannels();

@@ -4,6 +4,7 @@
 #include <iostream>
 
 AudioFile<double> multiply(AudioFile<double> wav1, AudioFile<double> wav2) {
+  std::cout << "multiplying files..." << std::endl;
 
   int numSamples1 = wav1.getNumSamplesPerChannel();
   int numChannels1 = wav1.getNumChannels();

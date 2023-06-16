@@ -5,6 +5,7 @@
 #include "tools.h"
 
 AudioFile<double> rawData(std::ifstream file) {
+  std::cout << "converting raw data to audio..." << std::endl;
 
   char *test;
   long size = file.tellg();

@@ -6,6 +6,7 @@
 #include "tools.h"
 
 AudioFile<double> integral(AudioFile<double> wav, size_t loop) {
+  std::cout << "finding " << loop << "th integral of file..." << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();

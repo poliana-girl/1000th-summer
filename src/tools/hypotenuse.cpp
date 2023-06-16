@@ -5,6 +5,8 @@
 #include "tools.h"
 
 AudioFile<double> hypotenuse(AudioFile<double> wav, size_t loop) {
+  std::cout << "computing hypotenuse function, looping " << loop << " times..."
+            << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();
