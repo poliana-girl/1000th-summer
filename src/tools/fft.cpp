@@ -41,15 +41,34 @@ void fft(CArray &channelVA) {
   }
 }
 
-AudioFile<double> fastFourierTransform(AudioFile<double> wav) {
+void ifft(CArray &x) {
+  // conjugate the complex numbers
+  x = x.apply(std::conj);
+
+  // forward fft
+  fft(x);
+
+  // conjugate the complex numbers again
+  x = x.apply(std::conj);
+
+  // scale the numbers
+  x /= x.size();
+}
+
+std::vector<AudioFile<double>> fastFourierTransform(AudioFile<double> wav) {
   std::cout << "computing fast fourier transform of file..." << std::endl;
 
   int numSamples = wav.getNumSamplesPerChannel();
   int numChannels = wav.getNumChannels();
 
   // create new audio buffer
-  AudioFile<double>::AudioBuffer buffer;
-  buffer.resize(numChannels);
+  AudioFile<double>::AudioBuffer bufferReal;
+  AudioFile<double>::AudioBuffer bufferImag;
+  bufferReal.resize(numChannels);
+  bufferImag.resize(numChannels);
+
+  // store fft'd audio
+  std::vector<AudioFile<double>> wavs;
 
   // create valarray (needded for FFT math)
   std::vector<CArray> channelVAs;
@@ -57,7 +76,8 @@ AudioFile<double> fastFourierTransform(AudioFile<double> wav) {
 
   // place values in valarray
   for (int channel = 0; channel < numChannels; channel++) {
-    buffer[channel].resize(numSamples);
+    bufferReal[channel].resize(numSamples);
+    bufferImag[channel].resize(numSamples);
     channelVAs[channel].resize(numSamples);
 
     for (int i = 0; i < numSamples; i++) {
@@ -71,11 +91,65 @@ AudioFile<double> fastFourierTransform(AudioFile<double> wav) {
 
     // convert back into channel
     for (int i = 0; i < numSamples; i++) {
+      bufferReal[channel][i] = channelVAs[channel][i].real();
+      bufferImag[channel][i] = channelVAs[channel][i].imag();
+    }
+  }
+
+  AudioFile<double> real;
+  real.setAudioBuffer(bufferReal);
+
+  AudioFile<double> imag;
+  imag.setAudioBuffer(bufferImag);
+
+  wavs.push_back(imag);
+  wavs.push_back(real);
+  return wavs;
+}
+
+AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav1,
+                                              AudioFile<double> wav2) {
+  std::cout << "computing inverese fast fourier transform of file..."
+            << std::endl;
+
+  if (wav1.getNumSamplesPerChannel() != wav2.getNumSamplesPerChannel() ||
+      wav1.getNumChannels() != wav2.getNumChannels()) {
+    throw std::runtime_error("wrong files!");
+  }
+
+  int numSamples = wav1.getNumSamplesPerChannel();
+  int numChannels = wav1.getNumChannels();
+
+  // create new audio buffer
+  AudioFile<double>::AudioBuffer buffer;
+  buffer.resize(numChannels);
+
+  // create valarray (needded for FFT math)
+  std::vector<CArray> channelVAs;
+  channelVAs.resize(numChannels);
+
+  // place values in valarray
+  for (int channel = 0; channel < numChannels; channel++) {
+    channelVAs[channel].resize(numSamples);
+    buffer[channel].resize(numSamples);
+
+    for (int i = 0; i < numSamples; i++) {
+      channelVAs[channel][i] =
+          Complex(wav1.samples[channel][i], wav2.samples[channel][i]);
+    }
+  }
+
+  // apply fft to each channel
+  for (int channel = 0; channel < numChannels; channel++) {
+    ifft(channelVAs[channel]);
+
+    // convert back into channel
+    for (int i = 0; i < numSamples; i++) {
       buffer[channel][i] = channelVAs[channel][i].real();
     }
   }
 
+  AudioFile<double> wav;
   wav.setAudioBuffer(buffer);
-  wav = normalize(wav);
   return wav;
 }

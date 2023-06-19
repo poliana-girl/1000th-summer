@@ -85,6 +85,11 @@ c++ CLI (wav) audio tools! coded by chayagirl.
 1000th-summer --lapl audio.wav
 ```
 
+**Bang**: does some weird shit to the signal so that it creates a "bang" sound at the beginning
+```
+1000th-summer --bang audio.wav
+```
+
 ## Binary (taking 2 wavs)
 
 **Multiply**: multiply the signals of two audio files.
@@ -105,6 +110,11 @@ c++ CLI (wav) audio tools! coded by chayagirl.
 **Max**: produces a signal composed of the maximum sample value at any point in each audio signal.
 ```
 1000th-summer --max audio1.wav audio2.wav
+```
+
+**Inverse FFT**: produces inverse of FFT.
+```
+1000th-summer --ifft audio1.wav audio2.wav
 ```
 
 ## Weird Ones

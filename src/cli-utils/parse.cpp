@@ -205,7 +205,12 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
 
     ucase("--fft") : noArgsSingleInput(argc, argv, command, wav1);
     filename = nameSingleInput(argv);
-    wavs.push_back(fastFourierTransform(wav1));
+    return fastFourierTransform(wav1);
+    break;
+
+    ucase("--ifft") : noArgsTwoInput(argc, argv, command, wav1, wav2);
+    filename = nameTwoInput(argv);
+    wavs.push_back(inverseFastFourierTransform(wav1, wav2));
     break;
 
     ucase("--weird") : noArgsSingleInput(argc, argv, command, wav1);
