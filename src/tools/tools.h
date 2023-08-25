@@ -27,6 +27,7 @@ AudioFile<double> weirdFn(AudioFile<double> wav);
 AudioFile<double> bang(AudioFile<double> wav);
 AudioFile<double> epic(AudioFile<double> wav);
 AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav1, AudioFile<double> wav2);
+AudioFile<double> newBlur(AudioFile<double> wav, double sd);
 
 // TEMPLATE FUNCTION
 

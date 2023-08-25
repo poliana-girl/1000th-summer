@@ -238,6 +238,11 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     wavs.push_back(epic(wav1));
     break;
 
+    ucase("--newblur") : dblArgSingleInput(argc, argv, command, wav1, dbl_arg);
+    filename = nameSingleInput(argv);
+    wavs.push_back(newBlur(wav1, dbl_arg));
+    break;
+
   default:
     throw std::runtime_error("command not found!");
   }
