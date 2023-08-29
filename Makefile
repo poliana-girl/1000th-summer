@@ -39,7 +39,7 @@ endif
 
 CLEAN :=
 ifeq ($(OSFLAG),WIN32)
-	CLEAN = del /q /s 1000th-summer.exe *.o .fuse_ 1000th-summer.ilk 1000th-summer.pdb
+	CLEAN = rm -rf 1000th-summer.exe $(OBJ) .fuse_ 1000th-summer.ilk 1000th-summer.pdb
 else
 	CLEAN = rm -rf 1000th-summer $(OBJ) .fuse_ frags
 endif
