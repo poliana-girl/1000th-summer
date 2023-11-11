@@ -1,8 +1,8 @@
 CC = g++
-CFLAGS = -g -std=c++17
+CFLAGS = -g -std=c++17 
 SRC  = $(wildcard src/**/*.cpp) $(wildcard src/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJ  = $(SRC:.cpp=.o)
-LDFLAGS = -g 
+LDFLAGS = -g -lfftw3 -L/usr/local/lib
 BIN = 1000th-summer
 RELEASE = -static -static-libgcc -static-libstdc++
 
