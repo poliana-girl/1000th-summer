@@ -26,7 +26,7 @@ std::vector<AudioFile<double>> fastFourierTransform(AudioFile<double> wav);
 AudioFile<double> weirdFn(AudioFile<double> wav);
 AudioFile<double> bang(AudioFile<double> wav);
 AudioFile<double> epic(AudioFile<double> wav);
-AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav1, AudioFile<double> wav2);
+AudioFile<double> inverseFastFourierTransform(AudioFile<double> real_wav, AudioFile<double> imaginary_wav);
 AudioFile<double> taylorSeriesApproximation(AudioFile<double> wav, int maxTaylorSeriesDepth);
 
 // TEMPLATE FUNCTION
