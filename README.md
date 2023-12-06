@@ -1,5 +1,5 @@
 # 1000th-summer
-c++ CLI (wav) audio tools! coded by chayagirl.
+c++ CLI (wav) audio tools! coded by poliana.
 
 # Tools
 
@@ -133,6 +133,8 @@ c++ CLI (wav) audio tools! coded by chayagirl.
 ```
 git clone --recursive https://github.com/chayagirl/1000th-summer.git
 cd 1000th-summer
+mkdir build
+cd build
+cmake ..
 make
-1000th-summer
 ```
