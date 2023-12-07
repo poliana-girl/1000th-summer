@@ -16,3 +16,4 @@
 test.png
 *.bmp
 build
+fftw3.h

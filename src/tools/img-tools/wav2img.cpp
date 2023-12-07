@@ -18,7 +18,7 @@ std::vector<CImg<double>> wavToImage(AudioFile<double> wav) {
   int numSamples = wav.getNumSamplesPerChannel();
   int numChannels = wav.getNumChannels();
 
-  int width = 3000;
+  int width = 1;
   int height = numSamples / width;
 
   for (int channel = 0; channel < numChannels; channel++) {
