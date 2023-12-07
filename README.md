@@ -77,7 +77,7 @@ c++ CLI (wav) audio tools! coded by poliana.
 
 **Blur**: make the audio file sound blurry.
 ```
-1000th-summer --blur audio.wav
+1000th-summer --blur audio.wav intensity
 ```
 
 **Laplace Transform**: find the Laplacian Transform of the audio file.
