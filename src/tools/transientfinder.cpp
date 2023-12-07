@@ -4,7 +4,7 @@
 
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
                                                int numFrags) {
-  std::cout << "finding transients of file and separating into" << numFrags << "fragments..." << std::endl;
+  std::cout << "finding transients of file and separating into " << numFrags << " fragments..." << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();
@@ -49,7 +49,7 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
   for (int channel = 0; channel < numChannels; channel++) {
     for (int i = 0; i < numSamples && i + 1 + offset < numSamples; i += istep) {
       rocBuffer[channel][i / istep] =
-          wav.samples[channel][i + 1 + offset] - wav.samples[channel][i];
+        std::abs(wav.samples[channel][i + 1 + offset] - wav.samples[channel][i]);
     }
   }
 
