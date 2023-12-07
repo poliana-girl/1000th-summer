@@ -4,7 +4,7 @@
 
 std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
                                                int numFrags) {
-  std::cout << "finding transients of file..." << std::endl;
+  std::cout << "finding transients of file and separating into" << numFrags << "fragments..." << std::endl;
 
   // info about wav file
   int numSamples = wav.getNumSamplesPerChannel();
@@ -22,7 +22,9 @@ std::vector<AudioFile<double>> transientFinder(AudioFile<double> wav,
   int bufChannelSize = numSamples / istep;
 
   // stores each channel's rates of change and index
-  std::priority_queue<std::pair<double, int>> sortedBuf[numChannels];
+  std::vector<std::priority_queue<std::pair<double, int>>> sortedBuf;
+  sortedBuf.resize(numChannels); 
+  
   // sample position in file of max rate of change in channel of sortedBuf
   int sortedTopIdx;
   // stores sample positions of the highest rates of change
