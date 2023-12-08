@@ -23,8 +23,35 @@ void place_inverse(fftw_complex* signal, std::vector<double> source_real, std::v
     }
 }
 
+AudioFile<double> halfSpeedAndSilence(AudioFile<double> wav) {
+
+    //find length of given audio file
+    int numSamples = wav.getNumSamplesPerChannel();
+    int numChannels = wav.getNumChannels();
+
+    // create new audio buffer
+    AudioFile<double>::AudioBuffer buffer;
+    buffer.resize(numChannels);
+
+    int halfSpeedNumSamples = numSamples * 2;
+
+    for (auto &channel : buffer)
+        channel.resize(halfSpeedNumSamples * 2);
+
+    for (int i = 0; i < numSamples; i++) {
+        for (int channel = 0; channel < numChannels; channel++) {
+            buffer[channel][i * 2] = wav.samples[channel][i];
+        }
+    }
+
+    wav.setAudioBuffer(buffer);
+    return wav;
+}
+
 std::vector<AudioFile<double>> fastFourierTransform(AudioFile<double> wav) {
   std::cout << "computing fast fourier transform of file..." << std::endl;
+
+  wav = halfSpeedAndSilence(wav);
 
   std::vector<AudioFile<double>> wavs;
   
@@ -111,11 +138,13 @@ AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav_real, AudioF
     numSamples = wav_real.getNumSamplesPerChannel();
   }
 
+  int newNumSamples = numSamples / 4;
+
   AudioFile<double>::AudioBuffer result_buffer;
     result_buffer.resize(numChannels);
 
   for (auto &channel : result_buffer)
-    channel.resize(numSamples);
+    channel.resize(newNumSamples);
 
   for (int channel = 0; channel < numChannels; channel++) {
     fftw_complex *signal;
@@ -132,7 +161,7 @@ AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav_real, AudioF
 
     fftw_execute(plan);
 
-    for (int i = 0; i < numSamples; i++) {
+    for (int i = 0; i < newNumSamples; i++) {
       result_buffer[channel][i] = result[i];
     }
 
