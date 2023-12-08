@@ -95,6 +95,11 @@ void noArgsTwoInput(int argc, char *argv[], std::string command,
 std::vector<AudioFile<double>> parse(int argc, char *argv[],
                                      std::string &filename) {
 
+  if (argc == 1) {
+    std::cout << "where is ur command oomfie!" << std::endl;
+    exit(0);
+  }
+  
   std::vector<AudioFile<double>> wavs;
 
   std::string command = argv[1];
@@ -208,10 +213,10 @@ std::vector<AudioFile<double>> parse(int argc, char *argv[],
     return fastFourierTransform(wav1);
     break;
 
-    //ucase("--ifft") : noArgsTwoInput(argc, argv, command, wav1, wav2);
-    //filename = nameTwoInput(argv);
-    //wavs.push_back(inverseFastFourierTransform(wav1, wav2));
-    //break;
+    ucase("--ifft") : noArgsTwoInput(argc, argv, command, wav1, wav2);
+    filename = nameTwoInput(argv);
+    wavs.push_back(inverseFastFourierTransform(wav1, wav2));
+    break;
 
     ucase("--weird") : noArgsSingleInput(argc, argv, command, wav1);
     filename = nameSingleInput(argv);
