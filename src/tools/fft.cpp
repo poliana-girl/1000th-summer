@@ -40,31 +40,33 @@ std::vector<AudioFile<double>> fastFourierTransform(AudioFile<double> wav) {
     buffer_real.resize(numChannels);
 
   for (auto &channel : buffer_real)
-    channel.resize(numSamples * 2);
+    channel.resize(numSamples);
 
   AudioFile<double>::AudioBuffer buffer_imag;
     buffer_imag.resize(numChannels);
 
   for (auto &channel : buffer_imag)
-    channel.resize(numSamples * 2);
+    channel.resize(numSamples);
 
   for (int channel = 0; channel < numChannels; channel++) {
     fftw_complex *signal;
     fftw_complex *result;
 
-    signal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples * 2);
-    result = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples * 2);
+    // signal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples);
+    result = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples);
 
 
-    place(signal, wav.samples[channel], numSamples);
+    // place(signal, wav.samples[channel], numSamples);
 
-    fftw_plan plan = fftw_plan_dft_1d(numSamples, signal, result, FFTW_FORWARD, FFTW_ESTIMATE);
+    double* a = &wav.samples[channel][0];
+
+    fftw_plan plan = fftw_plan_dft_r2c_1d(numSamples, a, result, FFTW_ESTIMATE);
     
     fftw_execute(plan);
 
     
 
-    for (int i = 0; i < numSamples * 2; i++) {
+    for (int i = 0; i < numSamples; i++) {
       buffer_real[channel][i] = result[REAL][i];
       buffer_imag[channel][i] = result[IMAG][i];
     }
@@ -113,24 +115,25 @@ AudioFile<double> inverseFastFourierTransform(AudioFile<double> wav_real, AudioF
     result_buffer.resize(numChannels);
 
   for (auto &channel : result_buffer)
-    channel.resize(numSamples / 2);
+    channel.resize(numSamples);
 
   for (int channel = 0; channel < numChannels; channel++) {
     fftw_complex *signal;
-    fftw_complex *result;
+    // fftw_complex *result;
+    double* result = new double[numSamples];
 
     signal = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples);
-    result = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples);
+    // result = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * numSamples);
 
 
-    fftw_plan plan = fftw_plan_dft_1d(numSamples, signal, result, FFTW_BACKWARD, FFTW_ESTIMATE);
+    fftw_plan plan = fftw_plan_dft_c2r_1d(numSamples, signal, result, FFTW_ESTIMATE);
 
     place_inverse(signal, wav_real.samples[channel], wav_imag.samples[channel], numSamples);
 
     fftw_execute(plan);
 
-    for (int i = 0; i < numSamples / 2; i++) {
-      result_buffer[channel][i] = result[REAL][i];
+    for (int i = 0; i < numSamples; i++) {
+      result_buffer[channel][i] = result[i];
     }
 
     fftw_destroy_plan(plan);
